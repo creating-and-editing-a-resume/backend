@@ -13,7 +13,7 @@
 ## Features
 
 ## Technologies Used
-* Python 3.11
+* Python 3.10
 * Django 4.2
 * Django REST Framework 3.14
 * PostgreSQL 13+
