@@ -62,6 +62,22 @@ docker-compose exec backend poetry run python manage.py collectstatic --no-input
 ```
 7. Open your web browser and navigate to http://127.0.0.1 to view the application.
 
+## Testing 
+
+### Running Tests using Pytest
+Use the following command to run tests in the project's root directory:
+```
+pytest
+```
+* Make sure you are in the project's root directory before executing the tests.
+
+### Running Flake8 using Poetry
+Utilize the following command to run Flake8:
+
+```
+poetry run flake8
+```
+
 ## Credits
 
 ## License
