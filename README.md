@@ -67,4 +67,4 @@ docker-compose exec backend poetry run python manage.py collectstatic --no-input
 ## License
 
 ## Contributing
-If you have any questions, suggestions, requests, or comments, please feel free to open [issues or pull requests](https://github.com/EvgVol/read-more/issues) in this repository.
+If you have any questions, suggestions, requests, or comments, please feel free to open [issues or pull requests](https://github.com/creating-and-editing-a-resume/backend/issues) in this repository.
