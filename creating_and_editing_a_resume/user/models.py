@@ -214,7 +214,7 @@ class Education(models.Model):
         on_delete=models.CASCADE,
         db_index=True,
     )
-    univercity = models.CharField(
+    university = models.CharField(
         verbose_name='ВУЗ',
         max_length=USER_MODEL_MAX_LEN,
         help_text='Название учебного заведения',
@@ -270,7 +270,7 @@ class Education(models.Model):
     def __str__(self):
         return (f'{self.student.first_name} {self.student.last_name} получал '
                 f'образование по специальности "{self.speciality}"'
-                f' в "{self.univercity}"')
+                f' в "{self.university}"')
 
 
 class Information(models.Model):
