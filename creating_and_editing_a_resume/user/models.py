@@ -256,16 +256,16 @@ class Education(models.Model):
             models.UniqueConstraint(
                 fields=[
                     'student',
-                    'univercity',
+                    'university',
                     'start_date',
                     'end_date'
                     ],
-                name='unique_univercity_in_one_time'),
+                name='unique_university_in_one_time'),
         ]
         default_related_name = 'educations'
         verbose_name = 'Образование'
         verbose_name_plural = 'Образование'
-        ordering = ('univercity', )
+        ordering = ('university', )
 
     def __str__(self):
         return (f'{self.student.first_name} {self.student.last_name} получал '
