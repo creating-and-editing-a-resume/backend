@@ -5,7 +5,8 @@ from user.models import (ResumeUser, EmploymentHistory, Courses,
 from creating_and_editing_a_resume.settings import (
     USER_MODEL_MAX_LEN,
     RESOURCES,
-    STATUSES
+    STATUSES,
+    PROFESSIONS
     )
 
 
@@ -17,6 +18,7 @@ class Skills(models.Model):
     # После появления модели профессий тип поля нужно изменить
     profession = models.CharField(
         verbose_name='Профессия',
+        choices=PROFESSIONS,
         max_length=USER_MODEL_MAX_LEN,
         null=True,
         blank=True,
