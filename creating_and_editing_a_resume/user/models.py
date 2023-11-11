@@ -1,5 +1,4 @@
-import datetime
-
+from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.db import models
@@ -115,7 +114,9 @@ class EmploymentHistory(models.Model):
         help_text='Дата начала работы',
     )
     end_date = models.DateField(
-        default=datetime.date.today(),
+        default=timezone.now(),
+        null=True,
+        blank=True,  # Если пусто - по настоящее время
         verbose_name='Дата окончания работы',
         help_text='Дата окончания работы',
     )
@@ -140,9 +141,8 @@ class EmploymentHistory(models.Model):
         ordering = ('company',)
 
     def __str__(self):
-        info = f'{self.employee.first_name} {self.employee.last_name}'
-        f'работал в "{self.company}"'
-        return info
+        return (f'{self.employee.first_name} {self.employee.last_name}'
+                f'работал в "{self.company}"')
 
 
 class Courses(models.Model):
@@ -182,8 +182,8 @@ class Courses(models.Model):
     diplom_link = models.CharField(
         null=True,
         blank=True,
-        verbose_name='Ссылка на диплом',
-        help_text='Ссылка на ваш диплом',
+        verbose_name='Ссылка на проект/дипломную работу',
+        help_text='Ссылка на проект/дипломную работу',
     )
 
     class Meta:
@@ -203,9 +203,8 @@ class Courses(models.Model):
         ordering = ('company', )
 
     def __str__(self):
-        info = f'{self.student.first_name} {self.student.last_name}'
-        f' повышал квалификацю "{self.name}" в "{self.company}"'
-        return info
+        return (f'{self.student.first_name} {self.student.last_name}'
+                f' повышал квалификацю "{self.name}" в "{self.company}"')
 
 
 class Education(models.Model):
@@ -225,7 +224,9 @@ class Education(models.Model):
         help_text='Дата поступления',
     )
     end_date = models.DateField(
-        default=datetime.date.today(),
+        default=timezone.now(),
+        null=True,
+        blank=True,  # Если пусто - по настоящее время
         verbose_name='Дата окончания',
         help_text='Дата окончания',
     )
@@ -234,7 +235,7 @@ class Education(models.Model):
         blank=True,
         max_length=USER_MODEL_MAX_LEN,
         verbose_name='Факультет',
-        help_text='Ваша факультет',
+        help_text='Ваш факультет',
     )
     speciality = models.CharField(
         max_length=USER_MODEL_MAX_LEN,
@@ -267,10 +268,9 @@ class Education(models.Model):
         ordering = ('univercity', )
 
     def __str__(self):
-        info = f'{self.student.first_name} {self.student.last_name} получал '
-        f'образование по специальности "{self.speciality}"'
-        f' в "{self.univercity}"'
-        return info
+        return (f'{self.student.first_name} {self.student.last_name} получал '
+                f'образование по специальности "{self.speciality}"'
+                f' в "{self.univercity}"')
 
 
 class Information(models.Model):
@@ -296,9 +296,8 @@ class Information(models.Model):
         ordering = ('about', )
 
     def __str__(self):
-        info = f'{self.user.first_name} '
-        f'{self.user.last_name} - ифнормация о себе.'
-        return info
+        return (f'{self.user.first_name} '
+                f'{self.user.last_name} - ифнормация о себе.')
 
 
 class Projects(models.Model):
@@ -309,6 +308,8 @@ class Projects(models.Model):
         db_index=True,
     )
     name = models.CharField(
+        verbose_name='Название проекта',
+        help_text='Название проекта',
         max_length=USER_MODEL_MAX_LEN,
         null=True,
         blank=True,
@@ -335,6 +336,5 @@ class Projects(models.Model):
         ordering = ('web_page', )
 
     def __str__(self):
-        info = f'Проект {self.web_page} пользователя '
-        f'{self.author.first_name} {self.author.last_name}'
-        return info
+        return (f'Проект {self.web_page} пользователя '
+                f'{self.author.first_name} {self.author.last_name}')

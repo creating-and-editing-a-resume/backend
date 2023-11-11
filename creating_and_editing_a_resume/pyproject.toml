@@ -15,7 +15,6 @@ pillow = "^10.1.0"
 gunicorn = "20.0.4"
 pytest = "^7.4.3"
 flake8 = "^6.1.0"
-poetry-dotenv-plugin = "^0.2.0"
 
 
 [tool.poetry.group.dev.dependencies]
