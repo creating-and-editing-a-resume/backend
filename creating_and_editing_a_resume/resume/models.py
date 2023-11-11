@@ -1,25 +1,21 @@
 from django.db import models
+from django.conf import settings
 
 from user.models import (ResumeUser, EmploymentHistory, Courses,
                          Education, Information, Projects,)
-from creating_and_editing_a_resume.settings import (
-    USER_MODEL_MAX_LEN,
-    RESOURCES,
-    STATUSES,
-    PROFESSIONS
-    )
 
 
 class Skills(models.Model):
+    """Model describing skills"""
     skill = models.CharField(
         verbose_name='Навык',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         )
     # После появления модели профессий тип поля нужно изменить
     profession = models.CharField(
         verbose_name='Профессия',
-        choices=PROFESSIONS,
-        max_length=USER_MODEL_MAX_LEN,
+        choices=settings.PROFESSIONS,
+        max_length=settings.USER_MODEL_MAX_LEN,
         null=True,
         blank=True,
         )
@@ -34,15 +30,16 @@ class Skills(models.Model):
 
 
 class WebLink(models.Model):
+    """Model describing web links"""
     link_type = models.CharField(
-        choices=RESOURCES,
-        max_length=USER_MODEL_MAX_LEN,
+        choices=settings.RESOURCES,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Интернет-ресурс',
         help_text='Название сайта',
     )
-    web_page = models.CharField(
+    web_page = models.URLField(
         verbose_name='Сайт',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Ссылка',
     )
 
@@ -64,6 +61,7 @@ class WebLink(models.Model):
 
 
 class Resume(models.Model):
+    """Model describing web resume"""
     author = models.ForeignKey(
         ResumeUser,
         verbose_name='Автор',
@@ -71,27 +69,25 @@ class Resume(models.Model):
         db_index=True,
     )
     search_status = models.CharField(
-        choices=STATUSES,
-        max_length=USER_MODEL_MAX_LEN,
+        choices=settings.STATUSES,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Статус поиска',
         help_text='Статус поиска',
     )
     position = models.CharField(
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Должность',
         help_text='Должность',
     )
     image = models.ImageField(
         verbose_name='Фото',
         upload_to='resume_images/',
-        null=True,
         blank=True
     )
     video_link = models.CharField(
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Видео презентация',
         help_text='Видео с соискателем',
-        null=True,
         blank=True
     )
     created_at = models.DateTimeField(

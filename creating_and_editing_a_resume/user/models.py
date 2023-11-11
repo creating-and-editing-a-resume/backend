@@ -2,52 +2,49 @@ from django.utils import timezone
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinLengthValidator
 from django.db import models
+from django.conf import settings
 
 
-from .service import validate_starts_with
-from creating_and_editing_a_resume.settings import (
-    USER_MODEL_MAX_LEN,
-    EMAIL_MAX_LEN,
-    GRADE,
-    )
+from .validators import validate_starts_with
 
 
 class ResumeUser(AbstractUser):
+    """Model describing User"""
     email = models.EmailField(
         verbose_name='email',
-        null=False,
         unique=True,
-        max_length=EMAIL_MAX_LEN
+        max_length=settings.EMAIL_MAX_LEN
+    )
+    registration_date = models.DateTimeField(
+        verbose_name='Дата регистрации',
+        auto_now_add=True,
+        editable=False,
     )
     password = models.CharField(
         verbose_name='Пароль',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Пароль необходим!',
     )
     first_name = models.CharField(
         verbose_name='Имя',
-        null=True,
         blank=True,
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Имя пользователя',
     )
     last_name = models.CharField(
-        null=True,
         blank=True,
         verbose_name='Фамилия',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Фамилия пользователя',
     )
     phone = models.CharField(
         verbose_name='Номер телефона',
-        null=True,
         blank=True,
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Номер телефона',
     )
     telegram = models.CharField(
         verbose_name='Telegram',
-        null=True,
         blank=True,
         max_length=33,
         help_text='Аккаунт в Telegram. Начинается с @',
@@ -61,32 +58,32 @@ class ResumeUser(AbstractUser):
     )
     city = models.CharField(
         verbose_name='Город',
-        null=True,
         blank=True,
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Ваш город',
     )
     birth_date = models.DateField(
         verbose_name='Дата рождения',
         help_text='Ваша дата рождения',
-        null=True,
         blank=True,
     )
-    username_field = 'email'
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-        ordering = ('id',)
+        ordering = ('-registration_date',)
 
     def __str__(self):
-        return f'Пользователь {self.email}'
+        return f'Пользователь {self.first_name}{self.last_name}'
 
 
 User = ResumeUser
 
 
 class EmploymentHistory(models.Model):
+    """Model describing work experience"""
     employee = models.ForeignKey(
         ResumeUser,
         verbose_name='Работник',
@@ -95,18 +92,17 @@ class EmploymentHistory(models.Model):
     )
     company = models.CharField(
         verbose_name='Организация',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Название организации',
     )
     web_page = models.CharField(
         verbose_name='Сайт',
-        null=True,
         blank=True,
         help_text='Сайт организации',
     )
     position = models.CharField(
         verbose_name='Должность',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Ваша должность в компании',
     )
     start_date = models.DateField(
@@ -115,7 +111,6 @@ class EmploymentHistory(models.Model):
     )
     end_date = models.DateField(
         default=timezone.now(),
-        null=True,
         blank=True,  # Если пусто - по настоящее время
         verbose_name='Дата окончания работы',
         help_text='Дата окончания работы',
@@ -146,6 +141,7 @@ class EmploymentHistory(models.Model):
 
 
 class Courses(models.Model):
+    """Model describing courses experience"""
     student = models.ForeignKey(
         ResumeUser,
         verbose_name='Студент курсов',
@@ -154,11 +150,11 @@ class Courses(models.Model):
     )
     company = models.CharField(
         verbose_name='Организация',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Название организации проводившей обучение',
     )
-    name = models.TextField(
-        max_length=USER_MODEL_MAX_LEN,
+    name = models.CharField(
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Название курса',
         help_text='Название курса',
     )
@@ -167,7 +163,7 @@ class Courses(models.Model):
         help_text='Дата окончания курсов',
     )
     speciality = models.CharField(
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Специальность',
         help_text='Ваша специальность',
     )
@@ -179,8 +175,7 @@ class Courses(models.Model):
         verbose_name='Навыки',
         help_text='Полученные вами навыки',
     )
-    diplom_link = models.CharField(
-        null=True,
+    diplom_link = models.URLField(
         blank=True,
         verbose_name='Ссылка на проект/дипломную работу',
         help_text='Ссылка на проект/дипломную работу',
@@ -208,6 +203,7 @@ class Courses(models.Model):
 
 
 class Education(models.Model):
+    """Model describing education experience"""
     student = models.ForeignKey(
         ResumeUser,
         verbose_name='Студент',
@@ -216,7 +212,7 @@ class Education(models.Model):
     )
     university = models.CharField(
         verbose_name='ВУЗ',
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         help_text='Название учебного заведения',
     )
     start_date = models.DateField(
@@ -225,28 +221,25 @@ class Education(models.Model):
     )
     end_date = models.DateField(
         default=timezone.now(),
-        null=True,
         blank=True,  # Если пусто - по настоящее время
         verbose_name='Дата окончания',
         help_text='Дата окончания',
     )
     faculty = models.CharField(
-        null=True,
         blank=True,
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Факультет',
         help_text='Ваш факультет',
     )
     speciality = models.CharField(
-        max_length=USER_MODEL_MAX_LEN,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Специальность',
         help_text='Ваша специальность',
     )
     grade = models.CharField(
-        null=True,
         blank=True,
-        choices=GRADE,
-        max_length=USER_MODEL_MAX_LEN,
+        choices=settings.GRADE,
+        max_length=settings.USER_MODEL_MAX_LEN,
         verbose_name='Степень',
         help_text='Ваша степень',
     )
@@ -274,6 +267,7 @@ class Education(models.Model):
 
 
 class Information(models.Model):
+    """Model describing about user block"""
     user = models.ForeignKey(
         ResumeUser,
         verbose_name='Пользователь',
@@ -301,6 +295,7 @@ class Information(models.Model):
 
 
 class Projects(models.Model):
+    """Model describing user`s projects"""
     author = models.ForeignKey(
         ResumeUser,
         verbose_name='Автор проекта',
@@ -310,17 +305,15 @@ class Projects(models.Model):
     name = models.CharField(
         verbose_name='Название проекта',
         help_text='Название проекта',
-        max_length=USER_MODEL_MAX_LEN,
-        null=True,
+        max_length=settings.USER_MODEL_MAX_LEN,
         blank=True,
         )
     info = models.TextField(
         verbose_name='Описание проекта',
         help_text='Краткое описание проекта',
-        null=True,
         blank=True,
     )
-    web_page = models.CharField(
+    web_page = models.URLField(
         verbose_name='Ссылка на проект',
         help_text='Ссылка на проект',
     )
