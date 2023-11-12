@@ -59,7 +59,7 @@ class Courses(models.Model):
         default_related_name = "courses"
         verbose_name = "Повышение квалификации"
         verbose_name_plural = "Повышение квалификации"
-        ordering = ("company",)
+        ordering = ("-date",)
 
     def __str__(self):
         return (

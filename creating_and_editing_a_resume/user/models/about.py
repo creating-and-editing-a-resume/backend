@@ -29,7 +29,6 @@ class Information(models.Model):
         default_related_name = "about"
         verbose_name = "О себе"
         verbose_name_plural = "О себе"
-        ordering = ("about",)
 
     def __str__(self):
-        return f"{self.user.get_full_name()} - ифнормация о себе."
+        return f"{self.user.get_full_name()} - информация о себе."
