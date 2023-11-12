@@ -21,9 +21,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
-    'resume.apps.ResumeConfig',
-    'user.apps.UserConfig',
+    "resume.apps.ResumeConfig",
+    "user.apps.UserConfig",
 ]
 
 MIDDLEWARE = [
@@ -68,7 +67,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'user.ResumeUser'
+AUTH_USER_MODEL = "user.ResumeUser"
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -104,41 +103,51 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-BANNED_SYMBOLS = r'^[\w.@+-]+$'
+BANNED_SYMBOLS = r"^[\w.@+-]+$"
+
+PHONE_REGEX = r"^(\+?7|8)([\d]{7,10})$"
+
+TELEGRAM_REGEX = r"^[@][\D\d_]{5,32}$"
 
 USER_MODEL_MAX_LEN = 150
 
 EMAIL_MAX_LEN = 254
 
+URL_LEN = 2000
+
 GRADE = (
-    ('Бакалавр', 'Бакалавр'),
-    ('Магистр', 'Магистр'),
-    ('Специалист', 'Специалист'),
-    ('Кандидат наук', 'Кандидат наук',),
-    ('Доктор наук', 'Доктор наук'),
+    ("Бакалавр", "Бакалавр"),
+    ("Магистр", "Магистр"),
+    ("Специалист", "Специалист"),
+    (
+        "Кандидат наук",
+        "Кандидат наук",
+    ),
+    ("Доктор наук", "Доктор наук"),
 )
 
 RESOURCES = (
-    ('GitHub', 'GitHub'),
-    ('Behance', 'Behance'),
-    ('Habr', 'Habr'),
-    ('Персональная страничка', 'Персональная страничка'),
-    ('StackOverflow', 'StackOverflow',),
+    ("GitHub", "GitHub"),
+    ("Behance", "Behance"),
+    ("Habr", "Habr"),
+    ("Персональная страничка", "Персональная страничка"),
+    (
+        "StackOverflow",
+        "StackOverflow",
+    ),
 )
 
 STATUSES = (
-    ('Активно ищу работу', 'Активно ищу работу'),
-    ('Расммотрю предложения', 'Рассмотрю предложения'),
-    ('В творческом поиске', 'В творческом поиске'),
+    ("Активно ищу работу", "Активно ищу работу"),
+    ("Рассмотрю предложения", "Рассмотрю предложения"),
+    ("В творческом поиске", "В творческом поиске"),
 )
 
 PROFESSIONS = (
-    ('Проектный менеджер', 'Проектный менеджер'),
-    ('Системный аналитик', 'Системный аналитик'),
-    ('UX/UI дизайнер', 'UX/UI дизайнер'),
-    ('Frontend разработчик', 'Frontend разработчик '),
-    ('Backend разработчик', 'Backend разработчик '),
-    ('Тестировщик', 'Тестировщик '),
+    ("Проектный менеджер", "Проектный менеджер"),
+    ("Системный аналитик", "Системный аналитик"),
+    ("UX/UI дизайнер", "UX/UI дизайнер"),
+    ("Frontend разработчик", "Frontend разработчик "),
+    ("Backend разработчик", "Backend разработчик "),
+    ("Тестировщик", "Тестировщик "),
 )
-
-FIRST_SYMBOL = 0

@@ -1,12 +1,9 @@
 from django.contrib import admin
+from user.models import about, courses, education, projects, user, work
 
-from .models import (ResumeUser, Education, EmploymentHistory, Information,
-                     Courses, Projects,)
-
-
-admin.site.register(ResumeUser)
-admin.site.register(Education)
-admin.site.register(EmploymentHistory)
-admin.site.register(Information)
-admin.site.register(Courses)
-admin.site.register(Projects)
+admin.site.register(user.ResumeUser)
+admin.site.register(education.Education)
+admin.site.register(work.EmploymentHistory)
+admin.site.register(about.Information)
+admin.site.register(courses.Courses)
+admin.site.register(projects.Projects)

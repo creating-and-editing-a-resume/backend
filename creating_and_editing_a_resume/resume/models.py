@@ -1,133 +1,147 @@
-from django.db import models
 from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.db import models
+from user.models import about, courses, education, projects, work
 
-from user.models import (ResumeUser, EmploymentHistory, Courses,
-                         Education, Information, Projects,)
+User = get_user_model()
 
 
 class Skills(models.Model):
     """Model describing skills"""
+
     skill = models.CharField(
-        verbose_name='Навык',
+        "Навык",
         max_length=settings.USER_MODEL_MAX_LEN,
-        )
+    )
     # После появления модели профессий тип поля нужно изменить
     profession = models.CharField(
-        verbose_name='Профессия',
+        "Профессия",
         choices=settings.PROFESSIONS,
         max_length=settings.USER_MODEL_MAX_LEN,
-        null=True,
         blank=True,
-        )
+    )
 
     class Meta:
-        verbose_name = 'Навык'
-        verbose_name_plural = 'Навыки'
-        ordering = ('id', )
+        verbose_name = "Навык"
+        verbose_name_plural = "Навыки"
+        ordering = ("id",)
 
     def __str__(self):
-        return f'Навык {self.skill}'
+        return f"Навык {self.skill}"
 
 
 class WebLink(models.Model):
     """Model describing web links"""
-    link_type = models.CharField(
+
+    name = models.CharField(
+        "Интернет-ресурс",
         choices=settings.RESOURCES,
         max_length=settings.USER_MODEL_MAX_LEN,
-        verbose_name='Интернет-ресурс',
-        help_text='Название сайта',
+        help_text="Название сайта",
     )
     web_page = models.URLField(
-        verbose_name='Сайт',
-        max_length=settings.USER_MODEL_MAX_LEN,
-        help_text='Ссылка',
+        "Сайт",
+        max_length=settings.URL_LEN,
+        help_text="Ссылка",
     )
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=[
-                    'link_type',
-                    'web_page',
-                    ],
-                name='unique_acount'),
+                    "name",
+                    "web_page",
+                ],
+                name="unique_resource",
+            ),
         ]
-        verbose_name = 'Ссылка на ресурс'
-        verbose_name_plural = 'Ссылки на ресурсы'
-        ordering = ('link_type',)
+        verbose_name = "Ссылка на ресурс"
+        verbose_name_plural = "Ссылки на ресурсы"
+        ordering = ("name",)
 
     def __str__(self):
-        return f'{self.link_type} {self.web_page}'
+        return f"{self.name} {self.web_page}"
 
 
 class Resume(models.Model):
     """Model describing web resume"""
+
     author = models.ForeignKey(
-        ResumeUser,
-        verbose_name='Автор',
+        User,
         on_delete=models.CASCADE,
+        verbose_name="Автор",
         db_index=True,
     )
+    updated = models.DateTimeField("updated", auto_now=True)
     search_status = models.CharField(
+        "Статус поиска",
         choices=settings.STATUSES,
         max_length=settings.USER_MODEL_MAX_LEN,
-        verbose_name='Статус поиска',
-        help_text='Статус поиска',
+        help_text="Статус поиска",
+        blank=True,
     )
     position = models.CharField(
+        "Должность",
         max_length=settings.USER_MODEL_MAX_LEN,
-        verbose_name='Должность',
-        help_text='Должность',
+        help_text="Должность",
     )
     image = models.ImageField(
-        verbose_name='Фото',
-        upload_to='resume_images/',
-        blank=True
+        "Фото",
+        upload_to="resume_images/",
+        blank=True,
     )
-    video_link = models.CharField(
+    video_link = models.URLField(
+        "Видео презентация",
         max_length=settings.USER_MODEL_MAX_LEN,
-        verbose_name='Видео презентация',
-        help_text='Видео с соискателем',
-        blank=True
+        help_text="Ссылка на видео с соискателем",
+        blank=True,
     )
     created_at = models.DateTimeField(
-        verbose_name='Дата публикации',
+        "Дата публикации",
         auto_now_add=True,
         editable=False,
     )
     web_page = models.ManyToManyField(
         WebLink,
-        verbose_name='Ссылки на свои ресурсы',
+        verbose_name="Ссылки на свои ресурсы",
+        blank=True,
     )
     skills = models.ManyToManyField(
         Skills,
-        verbose_name='Навыки',
+        verbose_name="Навыки",
+        blank=True,
     )
     works = models.ManyToManyField(
-        EmploymentHistory,
-        verbose_name='Место работы',
+        work.EmploymentHistory,
+        verbose_name="Место работы",
+        blank=True,
     )
     courses = models.ManyToManyField(
-        Courses,
-        verbose_name='Курсы',
+        courses.Courses,
+        verbose_name="Курсы",
+        blank=True,
     )
     education = models.ManyToManyField(
-        Education,
-        verbose_name='Образование',
+        education.Education,
+        verbose_name="Образование",
+        blank=True,
     )
     about = models.ManyToManyField(
-        Information,
-        verbose_name='О себе',
+        about.Information,
+        verbose_name="О себе",
+        blank=True,
     )
     projects = models.ManyToManyField(
-        Projects,
-        verbose_name='Проекты',
+        projects.Projects,
+        verbose_name="Проекты",
+        blank=True,
     )
 
     class Meta:
-        verbose_name = 'Резюме'
-        verbose_name_plural = 'Резюме'
-        ordering = ('-created_at',)
+        default_related_name = "resume"
+        verbose_name = "Резюме"
+        verbose_name_plural = "Резюме"
+        ordering = ("-created_at",)
 
     def __str__(self):
         return f'Резюме для должности "{self.position}". Автор: {self.author}'
