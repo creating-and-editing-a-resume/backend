@@ -21,9 +21,9 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-
-    'resume.apps.ResumeConfig',
-    'user.apps.UserConfig',
+    "core.apps.CoreConfig",
+    "resume.apps.ResumeConfig",
+    "user.apps.UserConfig",
 ]
 
 MIDDLEWARE = [
@@ -68,7 +68,7 @@ DATABASES = {
     }
 }
 
-AUTH_USER_MODEL = 'user.ResumeUser'
+AUTH_USER_MODEL = "user.ResumeUser"
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -103,17 +103,3 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
-
-BANNED_SYMBOLS = r'^[\w.@+-]+$'
-
-USER_MODEL_MAX_LEN = 150
-
-EMAIL_MAX_LEN = 254
-
-GRADE = (
-    ('Бакалавр', 'Бакалавр'),
-    ('Магистр', 'Магистр'),
-    ('Специалист', 'Специалист'),
-    ('Кандидат наук', 'Кандидат наук',),
-    ('Доктор наук', 'Доктор наук'),
-)
