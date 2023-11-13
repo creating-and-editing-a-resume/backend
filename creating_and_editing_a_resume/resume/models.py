@@ -57,7 +57,7 @@ class WebLink(models.Model):
         ]
         verbose_name = "Ссылка на ресурс"
         verbose_name_plural = "Ссылки на ресурсы"
-        ordering = ("name",)
+        ordering = ("id",)
 
     def __str__(self):
         return f"{self.name} {self.web_page}"

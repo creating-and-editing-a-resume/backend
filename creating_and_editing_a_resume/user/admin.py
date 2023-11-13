@@ -2,6 +2,7 @@ from django.contrib import admin
 from user.models import about, courses, education, projects, user, work
 
 
+@admin.register(user.ResumeUser)
 class UserAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -13,18 +14,21 @@ class UserAdmin(admin.ModelAdmin):
     list_filter = ("first_name", "city", "date_joined")
 
 
+@admin.register(education.Education)
 class EducationAdmin(admin.ModelAdmin):
     list_display = ("id", "university", "grade", "speciality", "student")
     search_fields = ("university", "grade", "speciality")
     list_filter = ("end_date", "start_date", "university")
 
 
+@admin.register(courses.Courses)
 class CoursesAdmin(admin.ModelAdmin):
     list_display = ("id", "company", "name", "date", "student")
     search_fields = ("company", "name", "date")
     list_filter = ("company", "name", "date")
 
 
+@admin.register(work.EmploymentHistory)
 class EmploymentAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -38,9 +42,11 @@ class EmploymentAdmin(admin.ModelAdmin):
     list_filter = ("company", "position", "end_date")
 
 
-admin.site.register(user.ResumeUser, UserAdmin)
-admin.site.register(education.Education, EducationAdmin)
-admin.site.register(work.EmploymentHistory, EmploymentAdmin)
-admin.site.register(about.Information)
-admin.site.register(courses.Courses, CoursesAdmin)
-admin.site.register(projects.Projects)
+@admin.register(about.Information)
+class AboutAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(projects.Projects)
+class ProjectsAdmin(admin.ModelAdmin):
+    pass

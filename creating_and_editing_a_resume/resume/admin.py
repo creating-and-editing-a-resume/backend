@@ -3,6 +3,7 @@ from django.contrib import admin
 from .models import Resume, Skills, WebLink
 
 
+@admin.register(Resume)
 class ResumeAdmin(admin.ModelAdmin):
     list_display = (
         "id",
@@ -16,6 +17,29 @@ class ResumeAdmin(admin.ModelAdmin):
     list_filter = ("author", "position", "skills")
 
 
-admin.site.register(Resume, ResumeAdmin)
-admin.site.register(Skills)
-admin.site.register(WebLink)
+@admin.register(Skills)
+class SkillsAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "skill",
+        "profession",
+    )
+    search_fields = (
+        "skill",
+        "profession",
+    )
+    list_filter = ("profession",)
+
+
+@admin.register(WebLink)
+class WebLinkAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "name",
+        "web_page",
+    )
+    search_fields = (
+        "name",
+        "web_page",
+    )
+    list_filter = ("name",)

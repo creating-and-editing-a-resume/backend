@@ -1,1 +1,1 @@
-from .user import ResumeUser
+from .user import models
