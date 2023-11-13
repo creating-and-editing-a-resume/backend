@@ -1,4 +1,5 @@
-from django.conf import settings
+from core.enums import Limits
+from core.text import Text
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils import timezone
@@ -17,12 +18,12 @@ class Courses(models.Model):
     )
     company = models.CharField(
         "Организация",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Название организации проводившей обучение",
     )
     name = models.CharField(
         "Название курса",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Название курса",
     )
     date = models.DateField(
@@ -31,7 +32,7 @@ class Courses(models.Model):
     )
     speciality = models.CharField(
         "Специальность",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Ваша специальность",
     )
     experience = models.TextField(
@@ -44,7 +45,7 @@ class Courses(models.Model):
     )
     diploma_link = models.URLField(
         "Ссылка на проект/дипломную работу",
-        max_length=settings.URL_LEN,
+        max_length=Limits.URL_LEN.value,
         blank=True,
         help_text="Ссылка на проект/дипломную работу",
     )

@@ -1,7 +1,6 @@
-from django.conf import settings
+from core.enums import Limits
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils import timezone
 
 User = get_user_model()
 
@@ -18,7 +17,7 @@ class Projects(models.Model):
     name = models.CharField(
         "Название проекта",
         help_text="Название проекта",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN,
         blank=True,
     )
     info = models.TextField(
@@ -28,7 +27,7 @@ class Projects(models.Model):
     )
     web_page = models.URLField(
         "Ссылка на проект",
-        max_length=settings.URL_LEN,
+        max_length=Limits.URL_LEN,
         help_text="Ссылка на проект",
     )
 

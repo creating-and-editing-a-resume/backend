@@ -1,4 +1,5 @@
-from django.conf import settings
+from core.enums import Limits
+from core.text import Text
 from django.contrib.auth import get_user_model
 from django.db import models
 from user.models import about, courses, education, projects, work
@@ -11,13 +12,13 @@ class Skills(models.Model):
 
     skill = models.CharField(
         "Навык",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
     )
     # После появления модели профессий тип поля нужно изменить
     profession = models.CharField(
         "Профессия",
-        choices=settings.PROFESSIONS,
-        max_length=settings.USER_MODEL_MAX_LEN,
+        choices=Text.PROFESSIONS,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         blank=True,
     )
 
@@ -35,13 +36,13 @@ class WebLink(models.Model):
 
     name = models.CharField(
         "Интернет-ресурс",
-        choices=settings.RESOURCES,
-        max_length=settings.USER_MODEL_MAX_LEN,
+        choices=Text.RESOURCES,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Название сайта",
     )
     web_page = models.URLField(
         "Сайт",
-        max_length=settings.URL_LEN,
+        max_length=Limits.URL_LEN.value,
         help_text="Ссылка",
     )
 
@@ -75,14 +76,14 @@ class Resume(models.Model):
     updated = models.DateTimeField("updated", auto_now=True)
     search_status = models.CharField(
         "Статус поиска",
-        choices=settings.STATUSES,
-        max_length=settings.USER_MODEL_MAX_LEN,
+        choices=Text.STATUSES,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Статус поиска",
         blank=True,
     )
     position = models.CharField(
         "Должность",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Должность",
     )
     image = models.ImageField(
@@ -92,7 +93,7 @@ class Resume(models.Model):
     )
     video_link = models.URLField(
         "Видео презентация",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Ссылка на видео с соискателем",
         blank=True,
     )

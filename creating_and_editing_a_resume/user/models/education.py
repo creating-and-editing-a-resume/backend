@@ -1,4 +1,5 @@
-from django.conf import settings
+from core.enums import Limits
+from core.text import Text
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -16,7 +17,7 @@ class Education(models.Model):
     )
     university = models.CharField(
         "ВУЗ",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Название учебного заведения",
     )
     start_date = models.DateField(
@@ -32,19 +33,19 @@ class Education(models.Model):
     faculty = models.CharField(
         "Факультет",
         blank=True,
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Ваш факультет",
     )
     speciality = models.CharField(
         "Специальность",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Ваша специальность",
     )
     grade = models.CharField(
         "Степень",
         blank=True,
-        choices=settings.GRADE,
-        max_length=settings.USER_MODEL_MAX_LEN,
+        choices=Text.GRADE,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Ваша степень",
     )
 

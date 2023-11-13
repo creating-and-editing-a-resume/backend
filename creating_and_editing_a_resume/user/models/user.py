@@ -1,24 +1,24 @@
+from core.enums import Limits, Regex
 from django.conf import settings
 from django.contrib.auth.models import AbstractUser
-from django.core.validators import MinLengthValidator, RegexValidator
+from django.core.validators import RegexValidator
 from django.db import models
-from django.utils import timezone
 
 
 class ResumeUser(AbstractUser):
     """Model describing User"""
 
     email = models.EmailField(
-        "email", unique=True, max_length=settings.EMAIL_MAX_LEN
+        "email", unique=True, max_length=Limits.EMAIL_MAX_LEN.value
     )
     phone = models.CharField(
         "Номер телефона",
         blank=True,
         validators=[
             RegexValidator(
-                regex=settings.PHONE_REGEX,
+                regex=Regex.PHONE_REGEX,
                 message="Проверьте корректно ли указан номер телефона",
-            )
+            ),
         ],
         help_text="Укажите номер телефона для связи",
     )
@@ -28,7 +28,7 @@ class ResumeUser(AbstractUser):
         help_text="Аккаунт в Telegram. Начинается с @",
         validators=[
             RegexValidator(
-                regex=settings.TELEGRAM_REGEX,
+                regex=Regex.TELEGRAM_REGEX,
                 message="Первый символ @, затем от 5 до 32 символов.",
             ),
         ],
@@ -36,7 +36,7 @@ class ResumeUser(AbstractUser):
     city = models.CharField(
         verbose_name="Город",
         blank=True,
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Ваш город",
     )
     birth_date = models.DateField(

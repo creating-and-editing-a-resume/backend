@@ -1,4 +1,4 @@
-from django.conf import settings
+from core.enums import Limits
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -16,7 +16,7 @@ class EmploymentHistory(models.Model):
     )
     company = models.CharField(
         "Организация",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Название организации",
     )
     web_page = models.URLField(
@@ -26,7 +26,7 @@ class EmploymentHistory(models.Model):
     )
     position = models.CharField(
         "Должность",
-        max_length=settings.USER_MODEL_MAX_LEN,
+        max_length=Limits.USER_MODEL_MAX_LEN.value,
         help_text="Ваша должность в компании",
     )
     start_date = models.DateField(
