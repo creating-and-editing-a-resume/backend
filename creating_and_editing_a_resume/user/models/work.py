@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.utils import timezone
 
 User = get_user_model()
 
@@ -36,7 +35,6 @@ class EmploymentHistory(models.Model):
     )
     end_date = models.DateField(
         "Дата окончания работы",
-        default=timezone.now(),
         null=True,
         blank=True,  # Если пусто - по настоящее время
         help_text="Дата окончания работы",
