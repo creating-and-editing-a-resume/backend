@@ -1,13 +1,32 @@
 from core.enums import Limits, Regex
 from django.conf import settings
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
 
 
-class ResumeUser(AbstractUser):
-    """Model describing User"""
+class CustomUserManager(BaseUserManager):
+    """Changed method for creating user with email."""
+    def create_user(self, email, password=None, **extra_fields):
+        if not email:
+            raise ValueError('Email required')
+        
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        
+        try:
+            user.save(using=self._db)
+        except Exception as e:
+            raise ValueError(f'Unable to create account. Error: {str(e)}')
+        
+        return user
 
+
+class ResumeUser(AbstractUser):
+    objects = CustomUserManager()
+    """Model describing User"""
+    username = None
     email = models.EmailField(
         "email", unique=True, max_length=Limits.EMAIL_MAX_LEN.value
     )
@@ -47,7 +66,7 @@ class ResumeUser(AbstractUser):
     )
 
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["username"]
+    REQUIRED_FIELDS = []
 
     class Meta:
         verbose_name = "Пользователь"

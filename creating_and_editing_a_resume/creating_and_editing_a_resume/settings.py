@@ -24,6 +24,10 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "resume.apps.ResumeConfig",
     "user.apps.UserConfig",
+    'rest_framework',
+    'rest_framework.authtoken',
+    'djoser',
+
 ]
 
 MIDDLEWARE = [
@@ -86,6 +90,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 LANGUAGE_CODE = "ru"
 
 TIME_ZONE = "UTC"
@@ -103,3 +108,18 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+}
