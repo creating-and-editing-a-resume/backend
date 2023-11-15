@@ -54,7 +54,7 @@ class EmploymentHistory(models.Model):
                 check=models.Q(end_date__gt=models.F("start_date")),
                 name="check_work_end_date",
                 violation_error_message=(
-                    "Дата окончания работы должна" " быть позже начала!"
+                    "Дата окончания работы должна быть позже начала!"
                 ),
             ),
         ]
