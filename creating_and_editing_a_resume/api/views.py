@@ -2,7 +2,6 @@ from api.serializers import ProfileSerializer
 from django.contrib.auth import get_user_model
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
-from user.models.user import ResumeUser
 
 User = get_user_model()
 
@@ -17,4 +16,4 @@ class ProfileViewSet(viewsets.ModelViewSet):
     http_method_names = ["get", "put", "patch"]
 
     def get_queryset(self):
-        return ResumeUser.objects.filter(id=self.request.user.id)
+        return User.objects.filter(id=self.request.user.id)
