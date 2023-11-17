@@ -24,7 +24,7 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "resume.apps.ResumeConfig",
     "user.apps.UserConfig",
-    "api.apps.UserConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [

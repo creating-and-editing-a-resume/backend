@@ -1,18 +1,20 @@
 from api.serializers import ProfileSerializer
 from django.contrib.auth import get_user_model
-from rest_framework import generics
+from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
+from user.models.user import ResumeUser
 
 User = get_user_model()
 
 
-class ProfileViewSet(generics.RetrieveUpdateAPIView):
+class ProfileViewSet(viewsets.ModelViewSet):
     """
     Личный кабинет пользователя.
     """
 
     serializer_class = ProfileSerializer
     permission_classes = [IsAuthenticated]
+    http_method_names = ["get", "put", "patch"]
 
-    def get_object(self):
-        return self.request.user
+    def get_queryset(self):
+        return ResumeUser.objects.filter(id=self.request.user.id)
