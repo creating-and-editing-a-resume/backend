@@ -25,6 +25,7 @@ INSTALLED_APPS = [
     "resume.apps.ResumeConfig",
     "user.apps.UserConfig",
     "drf_yasg",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
