@@ -23,8 +23,9 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core.apps.CoreConfig",
     "resume.apps.ResumeConfig",
-    "user.apps.UserConfig",
     "drf_yasg",
+    "user.apps.UserConfig",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
