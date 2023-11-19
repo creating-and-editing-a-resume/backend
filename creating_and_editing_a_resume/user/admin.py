@@ -1,5 +1,13 @@
 from django.contrib import admin
-from user.models import about, courses, education, projects, user, work
+from user.models import (
+    about,
+    courses,
+    education,
+    language,
+    projects,
+    user,
+    work,
+)
 
 
 @admin.register(user.ResumeUser)
@@ -49,4 +57,9 @@ class AboutAdmin(admin.ModelAdmin):
 
 @admin.register(projects.Projects)
 class ProjectsAdmin(admin.ModelAdmin):
+    pass
+
+
+@admin.register(language.Langeuage)
+class LanguageAdmin(admin.ModelAdmin):
     pass

@@ -14,7 +14,6 @@ class Skills(models.Model):
         "Навык",
         max_length=Limits.USER_MODEL_MAX_LEN.value,
     )
-    # После появления модели профессий тип поля нужно изменить
     profession = models.CharField(
         "Профессия",
         choices=Text.PROFESSIONS,

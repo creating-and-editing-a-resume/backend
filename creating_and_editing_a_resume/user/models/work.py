@@ -1,5 +1,6 @@
 from core.enums import Limits
 from django.contrib.auth import get_user_model
+from django.core.validators import MinLengthValidator
 from django.db import models
 
 User = get_user_model()
@@ -16,8 +17,13 @@ class EmploymentHistory(models.Model):
     )
     company = models.CharField(
         "Организация",
-        max_length=Limits.USER_MODEL_MAX_LEN.value,
+        max_length=Limits.WORK_MAX_LEN.value,
         help_text="Название организации",
+        validators=[
+            MinLengthValidator(
+                Limits.WORK_MIN_LEN.value,
+            ),
+        ],
     )
     web_page = models.URLField(
         "Сайт",
@@ -26,7 +32,7 @@ class EmploymentHistory(models.Model):
     )
     position = models.CharField(
         "Должность",
-        max_length=Limits.USER_MODEL_MAX_LEN.value,
+        max_length=Limits.WORK_MAX_LEN.value,
         help_text="Ваша должность в компании",
     )
     start_date = models.DateField(
