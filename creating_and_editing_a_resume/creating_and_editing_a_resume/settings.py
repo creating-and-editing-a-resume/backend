@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     "core.apps.CoreConfig",
     "resume.apps.ResumeConfig",
     "user.apps.UserConfig",
+    "drf_yasg",
     "api.apps.ApiConfig",
 ]
 
@@ -71,7 +72,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = "user.ResumeUser"
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -104,3 +104,9 @@ MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Token": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    }
+}
