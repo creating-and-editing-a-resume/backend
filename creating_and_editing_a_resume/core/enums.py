@@ -2,7 +2,7 @@ from enum import IntEnum
 
 
 class Limits(IntEnum):
-    """Number constants"""
+    """Number constants."""
 
     EMAIL_MAX_LEN = 254
     USER_MODEL_MAX_LEN = 150
@@ -10,8 +10,9 @@ class Limits(IntEnum):
 
 
 class Regex:
-    """Regex data"""
+    """Regex data."""
 
+    USER_NAME_REGEX = r"^[а-яА-ЯёЁ\s-]{2,50}$"
+    PHONE_REGEX = r"^+[0-9]{10,12}$"
     TELEGRAM_REGEX = r"^[@][a-zA-Z\d_]{5,32}$"
-    PHONE_REGEX = r"^([+7]|[8])[\d]{7,11}$"
     BANNED_SYMBOLS = r"^[\w.@+-]+$"

@@ -1,6 +1,7 @@
 import os
 from pathlib import Path
 
+from django.urls import reverse_lazy
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -21,11 +22,14 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "djoser",
+    "drf_yasg",
+    "api.apps.ApiConfig",
+    "user.apps.UserConfig",
     "core.apps.CoreConfig",
     "resume.apps.ResumeConfig",
-    "drf_yasg",
-    "user.apps.UserConfig",
-    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
@@ -105,8 +109,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# Action Users LOGIN and LOGOUT
+LOGIN_REDIRECT_URL = reverse_lazy("api:my-profile")
+LOGIN_URL = reverse_lazy("api:signin")
+
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
         "Token": {"type": "apiKey", "name": "Authorization", "in": "header"}
     }
+}
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
 }
