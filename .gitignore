@@ -159,4 +159,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 .idea/
 
-creating_and_editing_a_resume/user/migrations/
+creating_and_editing_a_resume/user/migrations/*
