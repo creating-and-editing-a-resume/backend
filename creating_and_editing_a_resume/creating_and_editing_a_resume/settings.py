@@ -123,3 +123,9 @@ REST_FRAMEWORK = {
 DJOSER = {
     'LOGIN_FIELD': 'email',
 }
+
+LOGIN_URL = '/signin/'
+
+LOGIN_REDIRECT_URL = '/my-profile/'
+
+LOGOUT_REDIRECT_URL = '/'
