@@ -1,26 +1,31 @@
 import pytest
 
 from rest_framework.test import APIClient
-from rest_framework.authtoken.models import Token
 
 
 @pytest.fixture
 def user(django_user_model):
     return django_user_model.objects.create_user(
-        email = 'testuser@example.com',
-        password = '1234567'
+        email = 'new_user@example.com',
+        password = '1234567',
+        first_name = 'Имя',
+        last_name = 'Фамилия',
+        phone = '+79999999999',
+        telegram = '@telegram_username',
+        city = 'Город',
+        birth_date = '01.01.2000',
     )
 
 
 @pytest.fixture
-def unauth_client():
+def unauth_client(user, resume):
     client = APIClient
     return client
 
 
 @pytest.fixture
-def auth_client_1(unauth_client, user_1):
-    unauth_client.force_authenticate(user=user_1)
+def auth_client(unauth_client, user):
+    unauth_client.force_authenticate(user=user)
     return unauth_client
 
 
