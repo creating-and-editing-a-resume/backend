@@ -6,15 +6,15 @@ class TestUserAPI:
 
     @pytest.mark.django_db(transaction=True)
     def test_user_not_authenticated(self, unauth_client):
-        response = unauth_client.get('/api/my-profile/')
+        response = unauth_client.get('/my-profile/')
 
         assert response.status_code != 404, (
-            'Страница `/api/my-profile/` не найдена, проверьте этот адрес в '
+            'Страница `/my-profile/` не найдена, проверьте этот адрес в '
             '*urls.py*'
         )
 
         assert response.status_code == 401, (
-            'Проверьте, что при GET запросе `/api/my-profile/` без токена '
+            'Проверьте, что при GET запросе `/my-profile/` без токена '
             'авторизации возвращается статус 401'
         )
     
@@ -22,25 +22,25 @@ class TestUserAPI:
     @pytest.mark.django_db(transaction=True)
     def test_user_post_guest(self, client, user):
         empty_data = {}
-        response = client.post('/api/my-profile/', data=empty_data)  # or /api/users/?
+        response = client.post('/my-profile/', data=empty_data)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с пустыми данными возвращаетe 400.'
         )
         no_email_data = {
             'password': '1234567'
         }
-        response = client.post('/api/my-profile/', data=no_email_data)
+        response = client.post('/my-profile/', data=no_email_data)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` без email, '
+            'Проверьте, что при POST запросе `/my-profile/` без email, '
             'возвращаетe статус 400.'
         )
         duplicate_email = {
             'email': user.email
         }
-        response = client.post('/api/my-profile/', data=duplicate_email)
+        response = client.post('/my-profile/', data=duplicate_email)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с уже существующим email, возвращаете статус 400. '
             '`Email` должен быть уникальным у каждого прользователя.'
         )
@@ -54,10 +54,10 @@ class TestUserAPI:
             'email': 'new_user@example.com'
         }
         response = client.post(
-            '/api/my-profile/', data=invalid_data_first_name
+            '/my-profile/', data=invalid_data_first_name
         )
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` установлена '
+            'Проверьте, что при POST запросе `/my-profile/` установлена '
             'максимальная длина поля `first_name`'
         )
         invalid_data_last_name = {
@@ -69,9 +69,9 @@ class TestUserAPI:
             'password': '1234567',
             'email': 'new_user@example.com'
         }
-        response = client.post('/api/my-profile/', data=invalid_data_last_name)
+        response = client.post('/my-profile/', data=invalid_data_last_name)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` установлена '
+            'Проверьте, что при POST запросе `/my-profile/` установлена '
             'максимальная длина поля `last_name`'
         )
         invalid_data_email = {
@@ -83,9 +83,9 @@ class TestUserAPI:
                 'ooooooooooooooooooooooooooooooooooooooooooooong@example.com '
             )
         }
-        response = client.post('/api/my-profile/', data=invalid_data_email)
+        response = client.post('/my-profile/', data=invalid_data_email)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` установлена '
+            'Проверьте, что при POST запросе `/my-profile/` установлена '
             'максимальная длина поля `email`'
         )
         invalid_data_phone = {
@@ -95,9 +95,9 @@ class TestUserAPI:
             'email': 'new_user@example.com',
             'phone': '1234567890123456789012'
         }
-        response = client.post('/api/my-profile/', data=invalid_data_phone)
+        response = client.post('/my-profile/', data=invalid_data_phone)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` установлены '
+            'Проверьте, что при POST запросе `/my-profile/` установлены '
             'ограничения на длину поля `phone`'
         )
         invalid_data_telegram = {
@@ -107,9 +107,9 @@ class TestUserAPI:
             'email': 'new_user@example.com',
             'telegram': 'invalid_telegram_username_invalid_telegram_username',
         }
-        response = client.post('/api/my-profile/', data=invalid_data_telegram)
+        response = client.post('/my-profile/', data=invalid_data_telegram)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` установлены '
+            'Проверьте, что при POST запросе `/my-profile/` установлены '
             'ограничения на длину поля `telegram`'
         )
         invalid_data_birth_date = {
@@ -119,9 +119,9 @@ class TestUserAPI:
             'email': 'new_user@example.com',
             'birth_date': '0321521500',
         }
-        response = client.post('/api/my-profile/', data=invalid_data_birth_date)
+        response = client.post('/my-profile/', data=invalid_data_birth_date)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` установлены '
+            'Проверьте, что при POST запросе `/my-profile/` установлены '
             'параметры ввода в поле `birth_date`'
         )
         invalid_data_city = {
@@ -136,9 +136,9 @@ class TestUserAPI:
                 'оооооооооооооооооооооооооооооооооооооооооооооооооооооооод'
             ),
         }
-        response = client.post('/api/my-profile/', data=invalid_data_city)
+        response = client.post('/my-profile/', data=invalid_data_city)
         assert response.status_code == 400, (
-            'Проверьте, что при POST запросе `/api/my-profile/` установлена '
+            'Проверьте, что при POST запросе `/my-profile/` установлена '
             'максимальная длина поля `city`'
         )
         data = {
@@ -151,44 +151,44 @@ class TestUserAPI:
             'birth_date': '01.01.2000',
             'city': 'Город'
         }
-        response = client.post('/api/my-profile/', data=data)
+        response = client.post('/my-profile/', data=data)
         assert response.status_code == 201, (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращает 201.'
         )
         response_data = response.json()
         assert response_data.get('first_name') == data['first_name'], (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращаете `first_name`.'
         )
         assert response_data.get('last_name') == data['last_name'], (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращаете `last_name`.'
         )
         assert response_data.get('email') == data['email'], (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращаете `email`.'
         )
         assert response_data.get('phone') == data['phone'], (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             ' с правильными данными возвращаете `phone`.'
         )
         assert response_data.get('telegram') == data['telegram'], (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращаете `telegram`.'
         )
         assert response_data.get('birth_date') == data['birth_date'], (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращаете `birth_date`.'
         )
         assert response_data.get('city') == data['city'], (
-            'Проверьте, что при POST запросе `/api/my-profile/` '
+            'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращаете `city`.'
         )
         user = get_user_model()
         users = user.objects.all()
         assert get_user_model().objects.count() == users.count(), (
-            'Проверьте, что при POST запросе `/api/my-profile/` вы создаёте '
+            'Проверьте, что при POST запросе `/my-profile/` вы создаёте '
             'пользователей.'
         )
 
@@ -203,9 +203,34 @@ class TestUserAPI:
             'birth_date': '01.03.2000',
             'city': 'Новый город'
         }
-        response = user.patch('/api/users/me/', data=data)
+        response = user.patch('/my-profile/', data=data)
         assert response.status_code == 200, (
-            'Проверьте, что при PATCH запросе `/api/users/me/`, '
-            'пользователь может изменить свои данные, и возвращается'
+            'Проверьте, что при PATCH запросе `/my-profile/`, '
+            'пользователь может изменить свои личные данные, и возвращается'
             ' статус 200'
+        )
+        response_data = response.json()
+        assert response_data.get('first_name') == data['first_name'], (
+            'Проверьте, что при PATCH запросе `/my-profile/` '
+            'с правильными данными возвращаете `first_name`.'
+        )
+        assert response_data.get('last_name') == data['last_name'], (
+            'Проверьте, что при PATCH запросе `/my-profile/` '
+            'с правильными данными возвращаете `last_name`.'
+        )
+        assert response_data.get('phone') == data['phone'], (
+            'Проверьте, что при PATCH запросе `/my-profile/` '
+            'с правильными данными возвращаете `phone`.'
+        )
+        assert response_data.get('telegram') == data['telegram'], (
+            'Проверьте, что при PATCH запросе `/my-profile/` '
+            'с правильными данными возвращаете `telegram`.'
+        )
+        assert response_data.get('birth_date') == data['birth_date'], (
+            'Проверьте, что при PATCH запросе `/my-profile/` '
+            'с правильными данными возвращаете `birth_date`.'
+        )
+        assert response_data.get('city') == data['city'], (
+            'Проверьте, что при PATCH запросе `/my-profile/` '
+            'с правильными данными возвращаете `city`.'
         )
