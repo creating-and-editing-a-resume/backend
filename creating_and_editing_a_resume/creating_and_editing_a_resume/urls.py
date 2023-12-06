@@ -4,7 +4,7 @@ from djoser.views import UserViewSet, TokenCreateView
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("signup/", UserViewSet.as_view({'post': 'create'}), name='create-user'),
+    path("signup/", UserViewSet.as_view({'post': 'create'}), name='signin'),
     path("signin/", TokenCreateView.as_view(), name='get-token'),
     path('user/', include('user.urls')),
 ]

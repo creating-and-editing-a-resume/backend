@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from django.urls import reverse_lazy
 
 load_dotenv()
 
@@ -124,8 +125,6 @@ DJOSER = {
     'LOGIN_FIELD': 'email',
 }
 
-LOGIN_URL = '/signin/'
-
-LOGIN_REDIRECT_URL = '/my-profile/'
-
+LOGIN_URL = reverse_lazy('signin')
+LOGIN_REDIRECT_URL = reverse_lazy('my-profile')
 LOGOUT_REDIRECT_URL = '/'

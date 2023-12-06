@@ -55,16 +55,16 @@ class ResumeUser(AbstractUser):
         max_length=50,
     )
     phone = models.CharField(
-    "Номер телефона",
-    blank=True,
-    max_length=12,
-    validators=[
-        RegexValidator(
-            regex=r'^\+7\d{10,12}$',
-            message="Формат: +7 и 10-12цифр.",
-        )
-    ],
-)
+        "Номер телефона",
+        blank=True,
+        max_length=12,
+        validators=[
+            RegexValidator(
+                regex=r'^\+7\d{10}$',
+                message="Формат: +7 и 10-12 цифр.",
+            )
+        ],
+    )
     telegram = models.CharField(
         "Telegram",
         blank=True,
