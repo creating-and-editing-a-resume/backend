@@ -2,6 +2,7 @@ import os
 from pathlib import Path
 
 from dotenv import load_dotenv
+from django.urls import reverse_lazy
 
 load_dotenv()
 
@@ -24,6 +25,9 @@ INSTALLED_APPS = [
     "resume.apps.ResumeConfig",
     "drf_yasg",
     "user.apps.UserConfig",
+    "rest_framework",
+    "rest_framework.authtoken",
+    "djoser",
     "api.apps.ApiConfig",
 ]
 
@@ -86,6 +90,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 LANGUAGE_CODE = "ru"
 
 TIME_ZONE = "UTC"
@@ -104,6 +109,22 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
+
+DJOSER = {
+    'LOGIN_FIELD': 'email',
+}
+
+LOGIN_URL = reverse_lazy('signin')
+LOGIN_REDIRECT_URL = reverse_lazy('my-profile')
+LOGOUT_REDIRECT_URL = '/'
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
         "Token": {"type": "apiKey", "name": "Authorization", "in": "header"}

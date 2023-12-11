@@ -2,6 +2,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+from djoser.views import UserViewSet, TokenCreateView
 from drf_yasg import openapi, views
 from rest_framework import permissions
 
@@ -18,6 +19,9 @@ schema_view = views.get_schema_view(
 urlpatterns = [
     path("", include("api.urls", namespace="api")),
     path("admin/", admin.site.urls),
+    path("signup/", UserViewSet.as_view({'post': 'create'}), name='signin'),
+    path("signin/", TokenCreateView.as_view(), name='get-token'),
+    path('user/', include('user.urls')),
     path(
         "swagger<format>/",
         schema_view.without_ui(cache_timeout=0),
@@ -34,7 +38,6 @@ urlpatterns = [
         name="schema-redoc",
     ),
 ]
-
 
 if settings.DEBUG:
     urlpatterns += static(
