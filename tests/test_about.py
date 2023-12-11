@@ -4,7 +4,7 @@ import pytest
 class TestAboutAPI:
 
     @pytest.mark.django_db(transaction=True)
-    def test_about_me_post(self, user):
+    def test_about_me_post(self, client):
         about_data = {
             'about': 'Информация обо мне, моих хобби и достижениях'
         }
@@ -20,7 +20,7 @@ class TestAboutAPI:
         about_data = {
             'about': 'Новая информация обо мне, моих хобби и достижениях'
         }
-        response = client.patch('/my-profile/', data=about_data)
+        response = user.patch('/my-profile/', data=about_data)
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/my-profile/` '
             'с правильными данными возвращает 200.'
