@@ -14,7 +14,6 @@ DEBUG = os.getenv("DEBUG", False)
 
 ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "*").split(", ")
 
-
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -24,11 +23,12 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "core.apps.CoreConfig",
     "resume.apps.ResumeConfig",
+    "drf_yasg",
     "user.apps.UserConfig",
-    'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
-
+    "rest_framework",
+    "rest_framework.authtoken",
+    "djoser",
+    "api.apps.ApiConfig",
 ]
 
 MIDDLEWARE = [
@@ -75,7 +75,6 @@ DATABASES = {
 
 AUTH_USER_MODEL = "user.ResumeUser"
 
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
@@ -110,8 +109,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-
-
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.AllowAny'
@@ -128,3 +125,8 @@ DJOSER = {
 LOGIN_URL = reverse_lazy('signin')
 LOGIN_REDIRECT_URL = reverse_lazy('my-profile')
 LOGOUT_REDIRECT_URL = '/'
+SWAGGER_SETTINGS = {
+    "SECURITY_DEFINITIONS": {
+        "Token": {"type": "apiKey", "name": "Authorization", "in": "header"}
+    }
+}

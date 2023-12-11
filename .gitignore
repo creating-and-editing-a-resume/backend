@@ -160,3 +160,5 @@ cython_debug/
 .idea/
 
 creating_and_editing_a_resume/user/migrations/*
+
+.vscode/
