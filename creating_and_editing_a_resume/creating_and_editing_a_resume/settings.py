@@ -1,8 +1,8 @@
 import os
 from pathlib import Path
 
-from dotenv import load_dotenv
 from django.urls import reverse_lazy
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -21,17 +21,19 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "core.apps.CoreConfig",
-    "resume.apps.ResumeConfig",
     "drf_yasg",
-    "user.apps.UserConfig",
+    "djoser",
     "rest_framework",
     "rest_framework.authtoken",
-    "djoser",
+    "corsheaders",
     "api.apps.ApiConfig",
+    "core.apps.CoreConfig",
+    "resume.apps.ResumeConfig",
+    "user.apps.UserConfig",
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -110,23 +112,34 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny'
-    ],
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication',
+    "DEFAULT_PERMISSION_CLASSES": ["rest_framework.permissions.AllowAny"],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
     ],
 }
 
 DJOSER = {
-    'LOGIN_FIELD': 'email',
+    "LOGIN_FIELD": "email",
 }
 
-LOGIN_URL = reverse_lazy('signin')
-LOGIN_REDIRECT_URL = reverse_lazy('my-profile')
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = reverse_lazy("signin")
+LOGIN_REDIRECT_URL = reverse_lazy("my-profile")
+LOGOUT_REDIRECT_URL = "/"
 SWAGGER_SETTINGS = {
     "SECURITY_DEFINITIONS": {
         "Token": {"type": "apiKey", "name": "Authorization", "in": "header"}
     }
 }
+
+CORS_ORIGIN_WHITELIST = [
+    "http://dev.acceleratorpracticum.ru",
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
