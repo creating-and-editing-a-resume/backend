@@ -4,7 +4,7 @@ import pytest
 class TestWork:
 
     @pytest.mark.django_db(transaction=True)
-    def test_work_post(self, client, user):
+    def test_work_post(self, auth_client, user):
         invalid_data = (
             'длииииииииииииииииииииииииииииииииииииииииииииииииииннннное '
             'назваааааааааааааааааааааааааааааааааааааааааааааааааааание '
@@ -17,7 +17,7 @@ class TestWork:
             'end_date': '01.01.2022',
             'responsibilities': 'Мои обязанности и достижения',
         }
-        response = client.post('/my-profile/', data=invalid_data_company)
+        response = auth_client.post('/my-profile/', data=invalid_data_company)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `company`'
@@ -30,7 +30,7 @@ class TestWork:
             'end_date': '01.01.2022',
             'responsibilities': 'Мои обязанности и достижения',
         }
-        response = client.post('/my-profile/', data=invalid_data_web_page)
+        response = auth_client.post('/my-profile/', data=invalid_data_web_page)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `web_page`'
@@ -43,7 +43,7 @@ class TestWork:
             'end_date': '01.01.2022',
             'responsibilities': 'Мои обязанности и достижения',
         }
-        response = client.post('/my-profile/', data=invalid_data_position)
+        response = auth_client.post('/my-profile/', data=invalid_data_position)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `position`'
@@ -56,7 +56,7 @@ class TestWork:
             'end_date': '01.01.2022',
             'responsibilities': 'Мои обязанности и достижения',
         }
-        response = client.post('/my-profile/', data=invalid_data_start_date)
+        response = auth_client.post('/my-profile/', data=invalid_data_start_date)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `start_date`'
@@ -69,7 +69,7 @@ class TestWork:
             'end_date': '01.01.202',
             'responsibilities': 'Мои обязанности и достижения',
         }
-        response = client.post('/my-profile/', data=invalid_data_end_date)
+        response = auth_client.post('/my-profile/', data=invalid_data_end_date)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `end_date`'
@@ -82,7 +82,7 @@ class TestWork:
             'end_date': '01.01.2022',
             'responsibilities': invalid_data,
         }
-        response = client.post(
+        response = auth_client.post(
             '/my-profile/', data=invalid_data_responsibilities
         )
         assert response.status_code == 400, (
@@ -97,7 +97,7 @@ class TestWork:
             'end_date': '01.01.2022',
             'responsibilities': 'Мои обязанности и достижения',
         }
-        response = client.post('/my-profile/', data=work_data)
+        response = auth_client.post('/my-profile/', data=work_data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'с корректными данными о работе возвращаете статус 201'
@@ -140,7 +140,7 @@ class TestWork:
             'end_date': '01.02.2021',
             'responsibilities': 'Новые обязанности и достижения',
         }
-        response = user.client.patch('/my-profile/', data=updated_work_data)
+        response = user.patch('/my-profile/', data=updated_work_data)
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/my-profile/` '
             'с правильными новыми данными о работе возвращаете статус 200'
