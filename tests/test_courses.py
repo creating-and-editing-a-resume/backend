@@ -4,7 +4,7 @@ import pytest
 class TestCoursesAPI:
 
     @pytest.mark.django_db(transaction=True)
-    def test_courses_post(self, client, user):
+    def test_courses_post(self, auth_client, user):
         invalid_data = (
             'длииииииииииииииииииииииииииииииииииииииииииииииииииин '
             'ноооооооооооооооооооооооооооооооооооооооооооооооооооое '
@@ -19,7 +19,7 @@ class TestCoursesAPI:
             'skills': 'Полученные мной навыки',
             'diploma_link': 'https://www.diploma-link.com/my-diploma/'
         }
-        response = client.post('/my-profile/', data=invalid_data_company)
+        response = auth_client.post('/my-profile/', data=invalid_data_company)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `company`'
@@ -33,7 +33,7 @@ class TestCoursesAPI:
             'skills': 'Полученные мной навыки',
             'diploma_link': 'https://www.diploma-link.com/my-diploma/'
         }
-        response = client.post('/my-profile/', data=invalid_data_name)
+        response = auth_client.post('/my-profile/', data=invalid_data_name)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `name`'
@@ -47,7 +47,7 @@ class TestCoursesAPI:
             'skills': 'Полученные мной навыки',
             'diploma_link': 'https://www.diploma-link.com/my-diploma/'
         }
-        response = client.post('/my-profile/', data=invalid_data_date)
+        response = auth_client.post('/my-profile/', data=invalid_data_date)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `date`'
@@ -61,7 +61,7 @@ class TestCoursesAPI:
             'skills': 'Полученные мной навыки',
             'diploma_link': 'https://www.diploma-link.com/my-diploma/'
         }
-        response = client.post('/my-profile/', data=invalid_data_speciality)
+        response = auth_client.post('/my-profile/', data=invalid_data_speciality)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `speciality`'
@@ -75,7 +75,7 @@ class TestCoursesAPI:
             'skills': 'Полученные мной навыки',
             'diploma_link': 'https://www.diploma-link.com/my-diploma/'
         }
-        response = client.post('/my-profile/', data=invalid_data_experience)
+        response = auth_client.post('/my-profile/', data=invalid_data_experience)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `experience`'
@@ -89,7 +89,7 @@ class TestCoursesAPI:
             'skills': invalid_data,
             'diploma_link': 'https://www.diploma-link.com/my-diploma/'
         }
-        response = client.post('/my-profile/', data=invalid_data_skills)
+        response = auth_client.post('/my-profile/', data=invalid_data_skills)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `skills`'
@@ -103,7 +103,7 @@ class TestCoursesAPI:
             'skills': 'Полученные мной навыки',
             'diploma_link': 'www.diploma-link'
         }
-        response = client.post('/my-profile/', data=invalid_data_diploma_link)
+        response = auth_client.post('/my-profile/', data=invalid_data_diploma_link)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `diploma_link`'
@@ -117,7 +117,7 @@ class TestCoursesAPI:
             'skills': 'Полученные мной навыки',
             'diploma_link': 'https://www.diploma-link.com/my-diploma/'
         }
-        response = client.post('/my-profile/', data=courses_data)
+        response = auth_client.post('/my-profile/', data=courses_data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращает 201.'
