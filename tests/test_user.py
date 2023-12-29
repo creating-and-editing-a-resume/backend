@@ -20,9 +20,9 @@ class TestUserAPI:
     
 
     @pytest.mark.django_db(transaction=True)
-    def test_user_post_guest(self, client, user):
+    def test_user_post_guest(self, auth_client, user):
         empty_data = {}
-        response = client.post('/my-profile/', data=empty_data)
+        response = auth_client.post('/my-profile/', data=empty_data)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'с пустыми данными возвращаетe 400.'
@@ -30,7 +30,7 @@ class TestUserAPI:
         no_email_data = {
             'password': '1234567'
         }
-        response = client.post('/my-profile/', data=no_email_data)
+        response = auth_client.post('/my-profile/', data=no_email_data)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` без email, '
             'возвращаетe статус 400.'
@@ -38,7 +38,7 @@ class TestUserAPI:
         duplicate_email = {
             'email': user.email
         }
-        response = client.post('/my-profile/', data=duplicate_email)
+        response = auth_client.post('/my-profile/', data=duplicate_email)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'с уже существующим email, возвращаете статус 400. '
@@ -53,7 +53,7 @@ class TestUserAPI:
             'password': '1234567',
             'email': 'new_user@example.com'
         }
-        response = client.post(
+        response = auth_client.post(
             '/my-profile/', data=invalid_data_first_name
         )
         assert response.status_code == 400, (
@@ -69,7 +69,7 @@ class TestUserAPI:
             'password': '1234567',
             'email': 'new_user@example.com'
         }
-        response = client.post('/my-profile/', data=invalid_data_last_name)
+        response = auth_client.post('/my-profile/', data=invalid_data_last_name)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` установлена '
             'максимальная длина поля `last_name`'
@@ -83,7 +83,7 @@ class TestUserAPI:
                 'ooooooooooooooooooooooooooooooooooooooooooooong@example.com '
             )
         }
-        response = client.post('/my-profile/', data=invalid_data_email)
+        response = auth_client.post('/my-profile/', data=invalid_data_email)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` установлена '
             'максимальная длина поля `email`'
@@ -95,7 +95,7 @@ class TestUserAPI:
             'email': 'new_user@example.com',
             'phone': '1234567890123456789012'
         }
-        response = client.post('/my-profile/', data=invalid_data_phone)
+        response = auth_client.post('/my-profile/', data=invalid_data_phone)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` установлены '
             'ограничения на длину поля `phone`'
@@ -107,7 +107,7 @@ class TestUserAPI:
             'email': 'new_user@example.com',
             'telegram': 'invalid_telegram_username_invalid_telegram_username',
         }
-        response = client.post('/my-profile/', data=invalid_data_telegram)
+        response = auth_client.post('/my-profile/', data=invalid_data_telegram)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` установлены '
             'ограничения на длину поля `telegram`'
@@ -119,7 +119,7 @@ class TestUserAPI:
             'email': 'new_user@example.com',
             'birth_date': '0321521500',
         }
-        response = client.post('/my-profile/', data=invalid_data_birth_date)
+        response = auth_client.post('/my-profile/', data=invalid_data_birth_date)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` установлены '
             'параметры ввода в поле `birth_date`'
@@ -136,7 +136,7 @@ class TestUserAPI:
                 'оооооооооооооооооооооооооооооооооооооооооооооооооооооооод'
             ),
         }
-        response = client.post('/my-profile/', data=invalid_data_city)
+        response = auth_client.post('/my-profile/', data=invalid_data_city)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` установлена '
             'максимальная длина поля `city`'
@@ -151,7 +151,7 @@ class TestUserAPI:
             'birth_date': '01.01.2000',
             'city': 'Город'
         }
-        response = client.post('/my-profile/', data=data)
+        response = auth_client.post('/my-profile/', data=data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'с правильными данными возвращает 201.'
