@@ -4,7 +4,7 @@ import pytest
 class TestAboutAPI:
 
     @pytest.mark.django_db(transaction=True)
-    def test_about_me_post(self, client):
+    def test_about_me_post(self, auth_client):
         about_data = {
             'about': 'Информация обо мне, моих хобби и достижениях'
         }
