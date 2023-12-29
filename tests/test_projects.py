@@ -4,7 +4,7 @@ import pytest
 class TestProjects:
 
     @pytest.mark.django_db(transaction=True)
-    def test_projects_post(self, client, user):
+    def test_projects_post(self, auth_client, user):
         invalid_data_name = {
             'name': (
                 'длииииииииииииииииииииииииииииииииииииииииииннннное название',
@@ -12,7 +12,7 @@ class TestProjects:
             'info': 'Описание проекта',
             'web_page': 'https://www.example.com/my-project/'
         }
-        response = client.post('/my-profile/', data=invalid_data_name)
+        response = auth_client.post('/my-profile/', data=invalid_data_name)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `name`'
@@ -22,7 +22,7 @@ class TestProjects:
             'info': 'Описание проекта',
             'web_page': 'www.example'
         }
-        response = client.post('/my-profile/', data=invalid_data_web_page)
+        response = auth_client.post('/my-profile/', data=invalid_data_web_page)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `web_page`'
@@ -32,7 +32,7 @@ class TestProjects:
             'info': 'Описание проекта',
             'web_page': 'https://www.example.com/my-project/'
         }
-        response = client.post('/my-profile/', data=projects_data)
+        response = auth_client.post('/my-profile/', data=projects_data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'с корректными данными о проектах возвращаете статус 201'
@@ -58,7 +58,7 @@ class TestProjects:
             'info': 'Новое описание проекта',
             'web_page': 'https://www.example.com/new-project/'
         }
-        response = client.patch('/my-profile/', data=updated_projects_data)
+        response = auth_client.patch('/my-profile/', data=updated_projects_data)
         assert response.status_code == 200, (
             'Проверьте, что при PATCH запросе `/my-profile/`, '
             'пользователь может изменить данные о проектах'
