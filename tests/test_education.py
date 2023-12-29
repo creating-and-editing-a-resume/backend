@@ -4,7 +4,7 @@ import pytest
 class TestEducation:
     
     @pytest.mark.django_db(transaction=True)
-    def test_education_post(self, client, user):
+    def test_education_post(self, auth_client, user):
         invalid_data = (
             'длииииииииииииииииииииииииииииииииииииииииииииннннное название'
         )
@@ -16,7 +16,7 @@ class TestEducation:
             'speciality': 'Специальность',
             'grade': 'Степень',
         }
-        response = client.post('/my-profile/', data=invalid_data_university)
+        response = auth_client.post('/my-profile/', data=invalid_data_university)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `university`'
@@ -29,7 +29,7 @@ class TestEducation:
             'speciality': 'Специальность',
             'grade': 'Степень',
         }
-        response = client.post('/my-profile/', data=invalid_data_start_date)
+        response = auth_client.post('/my-profile/', data=invalid_data_start_date)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `start_date`'
@@ -42,7 +42,7 @@ class TestEducation:
             'speciality': 'Специальность',
             'grade': 'Степень',
         }
-        response = client.post('/my-profile/', data=invalid_data_end_date)
+        response = auth_client.post('/my-profile/', data=invalid_data_end_date)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлены параметры ввода в поле `end_date`'
@@ -55,7 +55,7 @@ class TestEducation:
             'speciality': 'Специальность',
             'grade': 'Степень',
         }
-        response = client.post('/my-profile/', data=invalid_data_faculty)
+        response = auth_client.post('/my-profile/', data=invalid_data_faculty)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `faculty`'
@@ -68,7 +68,7 @@ class TestEducation:
             'speciality': invalid_data,
             'grade': 'Степень',
         }
-        response = client.post('/my-profile/', data=invalid_data_speciality)
+        response = auth_client.post('/my-profile/', data=invalid_data_speciality)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `speciality`'
@@ -81,7 +81,7 @@ class TestEducation:
             'speciality': 'Специальность',
             'grade': invalid_data,
         }
-        response = client.post('/my-profile/', data=invalid_data_grade)
+        response = auth_client.post('/my-profile/', data=invalid_data_grade)
         assert response.status_code == 400, (
             'Проверьте, что при POST запросе `/my-profile/` '
             'установлена максимальная длина поля `grade`'
@@ -94,7 +94,7 @@ class TestEducation:
             'speciality': 'Специальность',
             'grade': 'Степень',
         }
-        response = client.post('/my-profile/', data=education_data)
+        response = auth_client.post('/my-profile/', data=education_data)
         assert response.status_code == 201, (
             'Проверьте, что при POST запросе `/my-profile/` с '
             'валидными данными об образовании возвращается статус 201'
