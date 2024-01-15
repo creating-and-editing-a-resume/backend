@@ -27,7 +27,7 @@ class CustomUserManager(BaseUserManager):
 class ResumeUser(AbstractUser):
     objects = CustomUserManager()
     """Model describing User"""
-    username = None
+    # username = None
     first_name = models.CharField(
         "Имя",
         max_length=50,
